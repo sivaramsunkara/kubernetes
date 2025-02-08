@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod 
+metadata:
+  name: nginx-pod-cm
+spec:
+  containers:
+    - name: nginz-container
+      image: nginx
+#here under volume we try to capture the values with our container.
+#so  when ever we stored the data the data should stored in the container location.
+#Here we need to mount the data (configmap volume data) to the container.
+      volumeMounts:
+      - name: testvol
+# mount path nothing but under container what is the path we store the data. (some folder)
+        mountPath: "/etc/non-sensitive-data"
+        readOnly: true
+# with in this pod how to consider config  map as a volume.
+  volumes:
+    - name: testvol
+      configMap:
+#Here menction configmap file name already created file in the cluster that file name we menction.
+        name: nginx-configmap-vol
+# under connfig map we menction items what are all items are their in the config map ex  key values
+        items:
+        - key: file-1.txt
+          path: file-a.txt
+        - key: fie-2.txt
+          path: file-b.txt
+
+
+      
