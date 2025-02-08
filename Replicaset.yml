@@ -1,0 +1,23 @@
+apiVersion: apps/V1
+kind: ReplicaSet
+metadata:
+  name: myapp-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-app
+    matchExpressions: 
+      - {key: tire, operator: In, values: [frontend]}
+  template:
+    metadata:
+      name: nginx-pod
+      labels: 
+        app: nginx-app
+        tire: frondend
+    spec:
+      containers:
+        - name: mycontainer
+          image: nginx
+          ports: 
+            - containerPort: 80
